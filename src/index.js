@@ -37,9 +37,14 @@ document.addEventListener("DOMContentLoaded", e => {
 
     const clickHandler = () => {
         document.addEventListener("click", e => {
+
             if(e.target.matches("button.btn-danger")){
                 const button = e.target
                 deleteQuote(button)
+
+            } else if (e.target.matches("button.btn-success")){
+                const button = e.target
+                createLike(button)
             }
 
         })
@@ -80,11 +85,46 @@ document.addEventListener("DOMContentLoaded", e => {
 
         fetch(quotesUrl + quoteId, packet)
             .then(pullData)
-        const quoteUL = document.getElementById("quote-list")
-        while(quoteUL.firstChild){
-            quoteUL.removeChild(quoteUL.lastChild)
-        }
+            .then(e => {
+                const quoteUL = document.getElementById("quote-list")
+                while(quoteUL.firstChild){
+                    quoteUL.removeChild(quoteUL.lastChild)
+                }
+        })
     }
+
+    const createLike = (button) => {
+        const data = {
+            quoteId: button.parentElement.parentElement.dataset.id,
+            createdAt: Date.now()
+        }
+
+        const packet = {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+                "accept": "application/json"
+            },
+
+            body: JSON.stringify(data)
+        }
+
+        fetch(likesUrl, packet)
+            .then(res => res.json())
+    }
+
+    const countLikes = (quoteId) => {
+        const likes = fetch(likesUrl)
+            .then(res => res.json)
+            .then(data => {
+                let counter = 0
+                console.log(data)
+        })
+        return likes
+
+    }
+
+
 
 
     pullData()
