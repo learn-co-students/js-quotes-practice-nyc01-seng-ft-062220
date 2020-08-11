@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    //global variables
+
     const QUOTES = "http://localhost:3000/quotes"
     const LIKES = "http://localhost:3000/likes"
     const quoteList = document.getElementById("quote-list")
@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let allQuotes = []
     let allLikes = []
 
-    //fetchQuotes
     const fetchQuotes = async () => {
         const res = await fetch(QUOTES)
         const data = await res.json()
@@ -16,14 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
             renderQuote(obj)})
     }
 
-    //fetchLikes
     const fetchLikes = async () => {
         const res = await fetch(LIKES)
         const data = await res.json()
         data.forEach(obj => allLikes.push(obj))
     }
 
-    //newQuotes
     const newQuotes = async (obj) => {
         settings = {
             method: 'POST',
@@ -36,7 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const res = await fetch(QUOTES, settings)
     }
 
-    //updateLikes
     const updateLikes = async (obj) => {
         const date = new Date();
         const createdAt = Math.floor(date.getTime()/1000)
@@ -54,16 +50,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const res = await fetch(LIKES, settings) 
     }
 
-    //deleteQuote
     const deleteQuote = async (id) => {
-        settings = {
-            method: 'DELETE'
-        }
+        settings = { method: 'DELETE'}
         const res = await fetch(`${QUOTES}/${id}`, settings)
     }
 
-
-    //renderQuote
     const renderQuote = (obj) => {
         const li = document.createElement('li')
         li.class = "quote-card"
